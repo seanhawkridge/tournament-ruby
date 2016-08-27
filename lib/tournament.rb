@@ -11,7 +11,8 @@ class Tournament
   end
 
   def create_matches
-    @matches = @players.each_slice(2).to_a
+    pairings = @players.each_slice(2).to_a
+    @matches = pairings.map { |pair| Match.new(pair[0], pair[1]) }
   end
 
 end

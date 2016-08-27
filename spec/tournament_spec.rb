@@ -8,6 +8,8 @@ describe Tournament do
   let(:player_four) {double :player_four, name: :"Jude"}
   let(:player_five) {double :player_five, name: :"Refkah"}
 
+  let(:match_one) {double :match, p1: :"Sean", p2: :"Eleaor"}
+
   subject(:tournament) {described_class.new}
 
   before do
@@ -37,10 +39,10 @@ describe Tournament do
     it 'creates a set of pairings for matches from the players array' do
       tournament.add_player(:player_one)
       tournament.add_player(:player_two)
-      tournament.add_player(:player_three)
-      tournament.add_player(:player_four)
       tournament.create_matches
-      expect(tournament.matches).to eq [[:player_one, :player_two], [:player_three, :player_four]]
+      expect(tournament.matches.first).to be_a Match
+      expect(tournament.matches.first.player_one).to eq :player_one
+      expect(tournament.matches.first.player_two).to eq :player_two
     end
 
   end
