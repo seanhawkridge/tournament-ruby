@@ -5,3 +5,4 @@ gem 'rake'
 gem 'rspec'
 gem 'simplecov', :require => false, :group => :test
 gem 'byebug'
+gem 'pry'

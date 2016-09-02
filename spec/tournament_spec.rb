@@ -41,8 +41,8 @@ describe Tournament do
       tournament.add_player(:player_two)
       tournament.create_matches
       expect(tournament.matches.first).to be_a Match
-      expect(tournament.matches.first.player_one).to eq :player_one
-      expect(tournament.matches.first.player_two).to eq :player_two
+      expect(tournament.matches.first.players[0]).to eq :player_one
+      expect(tournament.matches.first.players[1]).to eq :player_two
     end
 
   end
