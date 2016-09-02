@@ -28,21 +28,81 @@ describe Tournament do
   describe '#add_player' do
 
     it 'adds a player to the players array' do
-      tournament.add_player(:player_one)
-      expect(tournament.players).to eq [:player_one]
+      tournament.add_player(player_one)
+      expect(tournament.players).to eq [player_one]
     end
 
   end
 
-  describe '#create_matches' do
+  describe '#build_tournament' do
 
-    it 'creates a set of pairings for matches from the players array' do
-      tournament.add_player(:player_one)
-      tournament.add_player(:player_two)
-      tournament.create_matches
-      expect(tournament.matches.first).to be_a Match
-      expect(tournament.matches.first.players[0]).to eq :player_one
-      expect(tournament.matches.first.players[1]).to eq :player_two
+    before do
+      tournament.add_player(player_one)
+      tournament.add_player(player_two)
+      tournament.add_player(player_three)
+      tournament.add_player(player_four)
+    end
+
+    it 'creates a set of pairings for matches from the players array for the first round' do
+      tournament.build_tournament
+      expect(tournament.rounds.first[0]).to be_a Match
+      expect(tournament.rounds.first[0].players[0]).to eq player_one
+      expect(tournament.rounds.first[0].players[1]).to eq player_two
+      expect(tournament.rounds.first[1]).to be_a Match
+      expect(tournament.rounds.first[1].players[0]).to eq player_three
+      expect(tournament.rounds.first[1].players[1]).to eq player_four
+    end
+
+    it 'sets up the remaining rounds in the tournament' do
+      tournament.build_tournament
+      expect(tournament.rounds.length).to eq 2
+      expect(tournament.rounds.first.length).to eq 2
+      expect(tournament.rounds.last.length).to eq 1
+    end
+
+  end
+
+  describe '#log_winner' do
+
+    before do
+      tournament.add_player(player_one)
+      tournament.add_player(player_two)
+      tournament.add_player(player_three)
+      tournament.add_player(player_four)
+      tournament.build_tournament
+    end
+
+    it 'logs the winner of a match' do
+      tournament.log_winner(0, player_two)
+      tournament.log_winner(0, player_three)
+      expect(tournament.rounds.first[0].winner).to eq player_two
+      expect(tournament.rounds.first[1].winner).to eq player_three
+    end
+
+    it 'adds the logged winner as a player in the next round' do
+      tournament.log_winner(0, player_two)
+      tournament.log_winner(0, player_three)
+      expect(tournament.rounds.last[0].players[0]).to eq player_two
+      expect(tournament.rounds.last[0].players[1]).to eq player_three
+    end
+
+  end
+
+  describe '#champion' do
+
+    before do
+      tournament.add_player(player_one)
+      tournament.add_player(player_two)
+      tournament.add_player(player_three)
+      tournament.add_player(player_four)
+      tournament.build_tournament
+      tournament.log_winner(0, player_two)
+      tournament.log_winner(0, player_three)
+      tournament.log_winner(1, player_two)
+    end
+
+    it 'displays the tournament champion' do
+      expect(tournament.champion).to eq :Eleanor
     end
 
   end
