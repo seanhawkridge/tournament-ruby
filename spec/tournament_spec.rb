@@ -101,8 +101,8 @@ describe Tournament do
       tournament.log_winner(1, player_two)
     end
 
-    it 'displays the tournament champion' do
-      expect(tournament.champion).to eq :Eleanor
+    it 'displays the name of the tournament champion' do
+      expect(tournament.champion).to eq "Eleanor"
     end
 
   end

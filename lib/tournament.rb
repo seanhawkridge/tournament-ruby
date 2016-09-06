@@ -1,6 +1,6 @@
 class Tournament
 
-  attr_reader :players, :matches, :rounds
+  attr_reader :players, :rounds
 
   def initialize
     @players = []
@@ -22,7 +22,7 @@ class Tournament
   end
 
   def champion
-    @rounds.last[0].winner.name
+    @rounds.last[0].winner.name.to_s
   end
 
   private
